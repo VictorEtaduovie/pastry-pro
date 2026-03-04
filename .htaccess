@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# 1. Redirect example.html → /example
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[\s?] [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# 2. Serve example → example.html internally
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^/]+)$ $1.html [L]

@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Éclat Cakes</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body class="contact-page">
+
+  <!-- NAV (keeps parity with your site) -->
+ <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index">
+        <div class="brand-mark">É</div>
+        <div>
+          <div class="fw-bold">Éclat Cakes</div>
+          <small class="text-muted d-none d-md-block">Premium Cakes & Pastries — Dallas, Texas</small>
+        </div>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navCollapse">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+          <li class="nav-item"><a class="nav-link " href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="menu">Menu</a></li>
+          <li class="nav-item"><a class="btn btn-outline-dark ms-2 active" href="contact">Book a Tasting</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <header class="contact-hero">
+    <div class="container">
+      <div class="row align-items-center gy-3">
+        <div class="col-md-8">
+          <h1 class="display-6 fw-bold">Get in touch — we'd love to hear about your event</h1>
+          <p class="lead mb-0">Questions, custom orders, tastings or event enquiries — tell us what you need and we'll reply promptly via WhatsApp or email.</p>
+        </div>
+
+        <div class="col-md-4 text-md-end d-none d-md-block">
+          <!-- Owner photo in hero (circular) -->
+          <img src="images/user-two.webp" alt="Owner — Emily Carter" class="owner-photo" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:6px solid rgba(255,255,255,0.85);box-shadow:0 18px 50px rgba(11,22,40,0.12);">
+          <div class="mt-2 small-muted">Emily C.<br><small class="text-muted">Founder & Head Pastry Chef</small></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="py-5">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- FORM + CTA -->
+        <div class="col-lg-7">
+          <div class="contact-card p-4 contact-form" id="contact-form" aria-labelledby="contactHeading">
+            <h2 id="contactHeading" class="h4 mb-3">Contact form</h2>
+            <p class="small text-muted">Fill the form below or choose "Send via WhatsApp" for instant contact.</p>
+
+            <form id="contactUsForm" class="needs-validation" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="c-name" class="form-label">Full name</label>
+                  <input id="c-name" name="name" type="text" class="form-control" placeholder="Your name" required>
+                  <div class="invalid-feedback">Please provide your name.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="c-phone" class="form-label">Phone / WhatsApp</label>
+                  <input id="c-phone" name="phone" type="tel" pattern="^[0-9 +()-]{6,}$" class="form-control" placeholder="+1 469 555 2480" required>
+                  <div class="invalid-feedback">Please enter a phone number we can contact.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="c-email" class="form-label">Email (optional)</label>
+                  <input id="c-email" name="email" type="email" class="form-control" placeholder="hello@eclatcakes.com">
+                  <div class="invalid-feedback">Enter a valid email address.</div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="c-date" class="form-label">Event date (optional)</label>
+                  <input id="c-date" name="date" type="date" class="form-control">
+                </div>
+
+                <div class="col-12">
+                  <label for="c-type" class="form-label">Type of order</label>
+                  <select id="c-type" name="type" class="form-select" required>
+                    <option value="">Select — wedding / birthday / corporate</option>
+                    <option>Wedding</option>
+                    <option>Birthday</option>
+                    <option>Corporate / Event</option>
+                    <option>Custom</option>
+                    <option>Other</option>
+                  </select>
+                  <div class="invalid-feedback">Please select a type.</div>
+                </div>
+
+                <div class="col-12">
+                  <label for="c-message" class="form-label">Message / Requirements</label>
+                  <textarea id="c-message" name="message" class="form-control" rows="5" placeholder="Tell us about flavours, size, guest count, budget, or attach a reference link." required></textarea>
+                  <div class="invalid-feedback">Please tell us what you need.</div>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                  <button id="sendFormBtn" type="submit" class="btn btn-gold"><i class="bi bi-send"></i> Send request</button>
+
+                  <!-- WhatsApp quick-send opens WA with formatted message -->
+                  <button id="sendWhatsAppBtn" type="button" class="btn btn-outline-success">
+                    <i class="bi bi-whatsapp"></i> Send via WhatsApp
+                  </button>
+
+                  <button id="clearFormBtn" type="button" class="btn btn-outline-dark ms-auto">Clear</button>
+                </div>
+
+                <div class="col-12 mt-2" id="formAlertArea" aria-live="polite"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- CONTACT DETAILS + MAP -->
+        <aside class="col-lg-5">
+          <div class="mb-3 contact-card p-3 contact-info">
+            <h4 class="h6 mb-3">Contact details</h4>
+
+            <div class="d-flex align-items-start mb-3">
+              <div class="icon"><i class="bi bi-telephone-fill"></i></div>
+              <div>
+                <div class="fw-semibold">Phone</div>
+                <div class="small text-muted"><a href="tel:+14695552480">+1 469 555 2480</a></div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <div class="icon"><i class="bi bi-envelope-fill"></i></div>
+              <div>
+                <div class="fw-semibold">Email</div>
+                <div class="small text-muted"><a href="mailto:hello@eclatcakes.com">hello@eclatcakes.com</a></div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-3">
+              <div class="icon"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <div class="fw-semibold">Address</div>
+                <div class="small text-muted">Downtown Dallas, TX — delivery across Dallas–Fort Worth (coverage on request)</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-0">
+              <div class="icon"><i class="bi bi-clock-fill"></i></div>
+              <div>
+                <div class="fw-semibold">Opening hours</div>
+                <div class="small text-muted">Mon–Sat: 08:00 — 18:00<br>Sun: Closed (by appointment)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card contact-map p-0">
+            <!-- Replace the src with a real Google Maps embed for your address -->
+            <iframe class="w-100" style="height:320px;border:0;" loading="lazy"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.000000000000!2d-96.800000!3d32.776665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sDallas%2C%20TX!5e0!3m2!1sen!2sus!4v0000000000000"
+              referrerpolicy="no-referrer-when-downgrade" aria-hidden="false"></iframe>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+ <!-- Footer -->
+  <footer class="py-4 bg-dark text-light">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div>
+        <strong>Éclat Cakes</strong> • Premium Bakery Demo
+        <div class="small text-muted">Made to showcase how an upscale bakery can present itself online.</div>
+      </div>
+      <div class="small">&copy; <span id="year"></span></span> Éclat Demo — Built by Victor 
+<a href="https://wa.me/14695552480" target="_blank" class="ms-2 text-decoration-none text-success fw-semibold">
+  <i class="bi bi-whatsapp"></i> +1 469 555 2480
+</a>
+</div> </div>
+    </div>
+  </footer>
+
+    <!-- Mobile Floating CTA -->
+<div class="mobile-cta d-md-none">
+
+  <!-- Slide Panel -->
+  <div class="mobile-cta-panel">
+    <a class="btn btn-gold w-100" href="https://wa.me/14695552480" target="_blank">
+      <i class="bi bi-whatsapp"></i> WhatsApp
+    </a>
+    <a class="btn btn-dark w-100" href="tel:+14695552480">
+      <i class="bi bi-telephone"></i> Call
+    </a>
+  </div>
+
+  <!-- Mobile Bubble -->
+  <button id="mobileCtaToggle" class="mobile-wa-bubble">
+  <i class="bi bi-chat-dots-fill"></i>
+</button>
+
+</div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    (function(){
+      const waNumber = '14695552480'; // <<--- replaced with store owner whatsapp number (US dummy, country code no +)
+      const form = document.getElementById('contactUsForm');
+      const sendWA = document.getElementById('sendWhatsAppBtn');
+      const sendFormBtn = document.getElementById('sendFormBtn');
+      const clearBtn = document.getElementById('clearFormBtn');
+      const alertArea = document.getElementById('formAlertArea');
+
+      // bootstrap validation technique
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        form.classList.remove('was-validated');
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          return;
+        }
+
+        // Here we simulate a server submission; you can replace with fetch/XHR later
+        const name = document.getElementById('c-name').value.trim();
+        const phone = document.getElementById('c-phone').value.trim();
+        const email = document.getElementById('c-email').value.trim();
+        const date = document.getElementById('c-date').value;
+        const type = document.getElementById('c-type').value;
+        const message = document.getElementById('c-message').value.trim();
+
+        // show inline success
+        const s = document.createElement('div');
+        s.className = 'alert alert-success';
+        s.textContent = 'Thanks — your request has been noted. We will contact you shortly via WhatsApp or email.';
+        alertArea.innerHTML = '';
+        alertArea.appendChild(s);
+
+        // reset form (optional)
+        form.reset();
+        form.classList.remove('was-validated');
+
+        // remove the success after a short time
+        setTimeout(()=> s.remove(), 6000);
+      });
+
+      // WhatsApp quick-send builds a formatted message from form fields
+      sendWA.addEventListener('click', function(){
+        // collect fields (no form submit)
+        const name = document.getElementById('c-name').value.trim() || 'Customer';
+        const phone = document.getElementById('c-phone').value.trim() || '';
+        const email = document.getElementById('c-email').value.trim() || '';
+        const date = document.getElementById('c-date').value || '';
+        const type = document.getElementById('c-type').value || '';
+        const message = document.getElementById('c-message').value.trim() || '';
+
+        if (!phone) {
+          // require phone for WA flow
+          const warning = document.createElement('div');
+          warning.className = 'alert alert-warning';
+          warning.textContent = 'Please include a phone number so we can reply on WhatsApp.';
+          alertArea.innerHTML = '';
+          alertArea.appendChild(warning);
+          setTimeout(()=> warning.remove(), 4000);
+          return;
+        }
+
+        // build nice message
+        let text = `Hi Éclat Cakes!%0A%0A`;
+        text += `Name: ${encodeURIComponent(name)}%0A`;
+        text += `Phone: ${encodeURIComponent(phone)}%0A`;
+        if (email) text += `Email: ${encodeURIComponent(email)}%0A`;
+        if (date) text += `Event date: ${encodeURIComponent(date)}%0A`;
+        if (type) text += `Type: ${encodeURIComponent(type)}%0A`;
+        if (message) text += `%0ADetails:%0A${encodeURIComponent(message)}%0A`;
+
+        // open WA
+        const waUrl = `https://wa.me/${waNumber}?text=${text}`;
+        window.open(waUrl, '_blank');
+      });
+
+      // clear form
+      clearBtn.addEventListener('click', function(){
+        form.reset();
+        form.classList.remove('was-validated');
+        alertArea.innerHTML = '';
+      });
+
+    })();
+  </script>
+  <script>
+  const mobileToggle = document.getElementById('mobileCtaToggle');
+  const mobileCta = document.querySelector('.mobile-cta');
+
+  mobileToggle.addEventListener('click', () => {
+    mobileCta.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

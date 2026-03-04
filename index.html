@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Éclat Cakes — Premium Bakery Demo</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS (separate file as requested) -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <!-- Mini Cart -->
+  <aside id="miniCart" class="mini-cart" aria-hidden="true">
+    <div class="mini-cart-inner">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>Your Order</strong>
+        <button id="closeCart" class="btn btn-sm btn-outline-dark">&times;</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="mt-3">
+        <div class="d-flex justify-content-between">
+          <div><strong>Total</strong></div>
+          <div id="cartTotal">$0</div>
+        </div>
+        <div class="mt-3 d-flex gap-2">
+          <button id="checkoutWA" class="btn btn-gold flex-fill"><i class="bi bi-whatsapp"></i> Checkout via WhatsApp</button>
+          <button id="clearCart" class="btn btn-outline-dark">Clear</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <button id="openCartBtn" class="cart-fab" aria-label="Open cart"><i class="bi bi-cart"></i><span id="cartCount" class="cart-count">0</span></button>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index">
+        <div class="brand-mark">É</div>
+        <div>
+          <div class="fw-bold">Éclat Cakes</div>
+          <small class="text-muted d-none d-md-block">Premium Cakes & Pastries — Dallas, Texas</small>
+        </div>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navCollapse">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="index">Home</a></li>
+          <li class="nav-item"><a class="nav-link " href="about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="menu">Menu</a></li>
+          <li class="nav-item"><a class="btn btn-outline-dark ms-2" href="contact">Book a Tasting</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO: full-bleed large carousel (long images) -->
+  <header class="hero-section">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100 hero-img" src="images/image-two.webp" alt="Signature layered cake">
+          <div class="hero-overlay"></div>
+          <div class="carousel-caption d-md-block text-start hero-caption" data-aos="fade-up">
+            <h1 class="display-6 fw-bold">Bespoke cakes that taste like celebration</h1>
+            <p class="lead mb-3">Handmade with premium ingredients — wedding cakes, birthday centerpieces, corporate events.</p>
+            <div class="d-none d-md-flex flex-wrap gap-2">
+              <a class="btn btn-gold btn-lg" href="tel:+14695552480"><i class="bi bi-telephone-fill"></i> Call</a>
+              <a class="btn btn-outline-light btn-lg" href="https://wa.me/14695552480" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp Order</a>
+              <a class="btn btn-light btn-lg" href="#contact"><i class="bi bi-calendar-check"></i> Book Tasting</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img class="d-block w-100 hero-img" src="images/image-twentysix.webp" alt="Artisan cake close-up">
+          <div class="hero-overlay"></div>
+          <div class="carousel-caption d-md-block text-start hero-caption">
+            <h1 class="display-6 fw-bold">Design-forward cakes for unforgettable moments</h1>
+            <p class="lead mb-3">Custom flavors, gorgeous finishes, delivered on time across Dallas–Fort Worth.</p>
+            <div class="d-none d-md-flex flex-wrap gap-2">
+              <a class="btn btn-gold btn-lg" href="tel:+14695552480"><i class="bi bi-telephone-fill"></i> Call</a>
+              <a class="btn btn-outline-light btn-lg" href="https://wa.me/14695552480" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp Order</a>
+              <a class="btn btn-light btn-lg" href="#contact"><i class="bi bi-calendar-check"></i> Book Tasting</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img class="d-block w-100 hero-img" src="images/image-three.webp" alt="Bakery interior and cakes">
+          <div class="hero-overlay"></div>
+          <div class="carousel-caption d-md-block text-start hero-caption">
+            <h1 class="display-6 fw-bold">From intimate orders to large events — we craft moments</h1>
+            <p class="lead mb-3">Tried-and-tested recipes, served with elegance.</p>
+            <div class="d-none d-md-flex flex-wrap gap-2">
+              <a class="btn btn-gold btn-lg" href="tel:+14695552480"><i class="bi bi-telephone-fill"></i> Call</a>
+              <a class="btn btn-outline-light btn-lg" href="https://wa.me/14695552480" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp Order</a>
+              <a class="btn btn-light btn-lg" href="contact"><i class="bi bi-calendar-check"></i> Book Tasting</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- flip gallery (5 items side-by-side) -->
+  <section id="flip-gallery" class="py-0">
+    <div class="container-fluid p-0">
+      <div class="flip-wrap">
+
+        <!-- item 1 -->
+        <div class="flip-item" data-id="signature-layered" data-title="Signature Layered" data-price="120" data-desc="6&quot; layered cake — vanilla &amp; strawberry" data-front="images/image-four.webp" data-back="images/image-five.webp">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="images/image-four.webp" alt="Signature Layered cake" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Signature Layered</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <img src="images/image-five.webp" alt="Signature Layered detail" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Signature Layered</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- item 2 -->
+        <div class="flip-item" data-id="chocolate-drip" data-title="Chocolate Drip" data-price="95" data-desc="Rich chocolate ganache drip cake" data-front="images/image-six.webp" data-back="images/image-seven.webp">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="images/image-six.webp" alt="Chocolate Drip cake" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Chocolate Drip</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <img src="images/image-seven.webp" alt="Chocolate Drip detail" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Chocolate Drip</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- item 3 -->
+        <div class="flip-item" data-id="floral-buttercream" data-title="Floral Buttercream" data-price="110" data-desc="Hand-piped buttercream flowers" data-front="images/image-eight.webp" data-back="images/image-nine.webp">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="images/image-eight.webp" alt="Floral Buttercream cake" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Floral Buttercream</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <img src="images/image-nine.webp" alt="Floral Buttercream detail" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Floral Buttercream</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- item 4 -->
+        <div class="flip-item" data-id="red-velvet-signature" data-title="Red Velvet Signature" data-price="85" data-desc="Classic red velvet with cream cheese" data-front="images/image-ten.webp" data-back="images/image-fifteen.webp">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="images/image-ten.webp" alt="Red Velvet cake" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Red Velvet Signature</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <img src="images/image-eleven.webp" alt="Red Velvet detail" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Red Velvet Signature</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- item 5 -->
+        <div class="flip-item" data-id="mini-macaron-tower" data-title="Mini Macaron Tower" data-price="45" data-desc="Assorted macarons — 24pcs" data-front="images/image-twelve.webp" data-back="images/image-thirteen.webp">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <img src="images/image-twelve.webp" alt="Macaron tower" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Mini Macaron Tower</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+            <div class="flip-back">
+              <img src="images/image-thirteen.webp" alt="Macarons detail" loading="lazy">
+              <div class="flip-overlay">
+                <div class="flip-title">Mini Macaron Tower</div>
+                <button class="btn btn-sm btn-outline-light view-more">View more</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Product modal (place once on page, after flip gallery) -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-md-7">
+              <img id="pm-image" src="" alt="" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="col-md-5 p-4">
+              <h4 id="pm-title"></h4>
+              <div class="text-muted mb-2" id="pm-price"></div>
+              <p id="pm-desc"></p>
+              <div class="d-flex gap-2 mt-3">
+                <!-- Add to cart button (modal) -->
+                <button id="pm-add" type="button" class="btn btn-gold add-to-cart" data-id="" data-title="" data-price=""> <i class="bi bi-cart-plus"></i> Add to Cart</button>
+                <a id="pm-call" class="btn btn-outline-dark" href="#"><i class="bi bi-telephone"></i> Call</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery: long vertical "hero-like" images stacked, each is big and tall -->
+  <section id="gallery" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">Menu — Our Recipes</h2>
+
+      <div class="mb-4 gallery-item position-relative">
+        <img loading="lazy" src="images/image-fourteen.webp" class="long-img rounded-3 shadow-sm" alt="Tiered wedding cake">
+        <button type="button"
+          class="btn btn-sm btn-gold gallery-view gallery-add" style="position:absolute; right:18px; bottom:18px;" 
+          data-id="tiered-wedding"
+          data-title="Tiered Wedding Cake"
+          data-price="2500"
+          data-desc="Elegant multi-tier wedding cake with custom floral detailing."
+          data-image="images/image-fourteen.webp">
+          View Details
+        </button>
+      </div>
+
+      <div class="mb-4 gallery-item position-relative">
+        <img loading="lazy" src="images/image-fifteen.webp" class="long-img rounded-3 shadow-sm" alt="Close up frosting detail">
+        <button type="button"
+          class="btn btn-sm btn-gold gallery-view  gallery-add" style="position:absolute; right:18px; bottom:18px;" 
+          data-id="tiered-wedding"
+          data-title="Tiered Wedding Cake"
+          data-price="2500"
+          data-desc="Elegant multi-tier wedding cake with custom floral detailing."
+          data-image="images/image-fourteen.webp">
+          View Details
+        </button>
+      </div>
+
+      <div class="mb-4 gallery-item position-relative">
+        <img loading="lazy" src="images/image-sixteen.webp" class="long-img rounded-3 shadow-sm" alt="Assorted pastries and cakes">
+        <button type="button"
+          class="btn btn-sm btn-gold gallery-view  gallery-add" style="position:absolute; right:18px; bottom:18px;" 
+          data-id="tiered-wedding"
+          data-title="Tiered Wedding Cake"
+          data-price="2500"
+          data-desc="Elegant multi-tier wedding cake with custom floral detailing."
+          data-image="images/image-fourteen.webp">
+          View Details
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Menu / Quick shop -->
+  <section id="menu" class="py-5 bg-white">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="section-title">Popular Picks</h2>
+        <div class="text-muted">One-tap ordering via WhatsApp or phone</div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <article class="card product-card h-100" data-aos-delay="80" data-id="signature-red-velvet" data-title="Signature Red Velvet" data-price="85">
+            <img src="images/image-seventeen.webp" loading="lazy" class="card-img-top product-img" alt="Red velvet cake">
+            <div class="card-body">
+              <h5 class="card-title mb-1">
+                Signature Red Velvet
+                <span class="text-gold fw-bold d-block">$85</span>
+              </h5>
+
+              <p class="card-text text-muted small mb-2">
+              6" round — serves 8. Custom message included.
+              </p>
+             <div class="d-flex gap-2">
+                <!-- Popular picks remain as Order (instant WA). If you want Add-to-cart instead, change to add-to-cart -->
+                <a href="https://wa.me/14695552480?text=Hello%20%C3%89clat%20Cakes!%0A%0AI%20want%20to%20order:%0A%0AProduct:%20Signature%20Red%20Velvet%0APrice:%20$85%0ADescription:%206%22%20round%20%E2%80%94%20serves%208.%20Custom%20message%20included.%0A%0APlease%20confirm%20availability."
+                class="btn btn-gold btn-sm flex-fill">
+                <i class="bi bi-whatsapp"></i> Order
+                </a>
+                <a href="#contact" class="btn btn-outline-dark btn-sm">Enquire</a>
+              </div>
+
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <article class="card product-card h-100" data-aos-delay="80" data-id="decadent-chocolate-drip" data-title="Decadent Chocolate Drip" data-price="95">
+            <img src="images/image-eighteen.webp" loading="lazy" class="card-img-top product-img" alt="Chocolate drip cake">
+            <div class="card-body">
+              <h5 class="card-title mb-1">
+                Decadent Chocolate Drip
+                <span class="text-gold fw-bold d-block">$95</span>
+              </h5>
+
+              <p class="card-text text-muted small mb-2">
+              Rich dark chocolate with ganache drip.
+              </p>
+             <div class="d-flex gap-2">
+                <!-- Popular picks remain as Order (instant WA). If you want Add-to-cart instead, change to add-to-cart -->
+                <a href="https://wa.me/14695552480?text=Hello%20%C3%89clat%20Cakes!%0A%0AI%20want%20to%20order:%0A%0AProduct:%20Decadent%20Chocolate%20Drip%0APrice:%20$95%0ADescription:%20Rich%20dark%20chocolate%20with%20ganache%20drip.%0A%0APlease%20confirm%20availability."
+                class="btn btn-gold btn-sm flex-fill">
+                <i class="bi bi-whatsapp"></i> Order
+                </a>
+                <a href="#contact" class="btn btn-outline-dark btn-sm">Enquire</a>
+              </div>
+
+            </div>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <article class="card product-card h-100" data-aos-delay="80" data-id="floral-buttercream-pop" data-title="Floral Buttercream" data-price="110">
+            <img src="images/image-nineteen.webp" loading="lazy" class="card-img-top product-img" alt="Buttercream floral cake">
+            <div class="card-body">
+              <h5 class="card-title mb-1">
+                Floral Buttercream
+                <span class="text-gold fw-bold d-block">$110</span>
+              </h5>
+
+              <p class="card-text text-muted small mb-2">
+              Artful floral finishes — custom
+              </p>
+             <div class="d-flex gap-2">
+                <!-- Popular picks remain as Order (instant WA). If you want Add-to-cart instead, change to add-to-cart -->
+                <a href="https://wa.me/14695552480?text=Hello%20%C3%89clat%20Cakes!%0A%0AI%20want%20to%20order:%0A%0AProduct:%20Floral%20Buttercream%0APrice:%20$110%0ADescription:%20Artful%20floral%20finishes%20%E2%80%94%20custom.%0A%0APlease%20confirm%20availability."
+                class="btn btn-gold btn-sm flex-fill">
+                <i class="bi bi-whatsapp"></i> Order
+                </a>
+                <a href="#contact" class="btn btn-outline-dark btn-sm">Enquire</a>
+              </div>
+
+            </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING REMOVED per your request -->
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="py-5">
+    <div class="container">
+      <h2 class="section-title text-center mb-4">What clients say</h2>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+          <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="testimonial p-4 rounded-3">
+                  <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="images/user-one.webp" class="rounded-circle" width="56" height="56" alt="client photo">
+                    <div>
+                      <strong>Emily — Bride</strong><br>
+                      <small class="text-muted">Highland Park, Dallas</small>
+                    </div>
+                  </div>
+                  <p class="mb-0">"Éclat made our wedding cake exactly as imagined — everyone complimented both flavor and design. Flawless service."</p>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="testimonial p-4 rounded-3">
+                  <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="images/user-two.webp" class="rounded-circle" width="56" height="56" alt="client photo">
+                    <div>
+                      <strong>Michael — Event Planner</strong><br>
+                      <small class="text-muted">Plano, Texas</small>
+                    </div>
+                  </div>
+                  <p class="mb-0">"Reliable, professional, and delicious. They handled 120 cupcakes for a corporate event with ease."</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-indicators mt-3">
+              <button type="button" data-bs-target="#testiCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#testiCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ (expanded) -->
+  <section id="faq" class="py-5">
+    <div class="container">
+      <h2 class="section-title mb-4">Frequently Asked Questions</h2>
+      <div class="accordion" id="faqAccordion">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">How far do you deliver?</button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">We deliver across the Dallas–Fort Worth area within our coverage map. Larger events outside Texas are by arrangement.</div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">How long before an event should I order?</button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">For bespoke wedding cakes, we recommend 3–6 weeks. For smaller orders, 5–7 days typically suffice.</div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">Do you offer tasting sessions?</button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">Yes — we host tasting sessions by appointment. Book via the "Book a Tasting" button or the contact form.</div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">Can I request custom flavors or designs?</button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">Absolutely. Provide your brief in the contact form or on WhatsApp and we'll confirm feasibility and price.</div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqFive">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">What are your payment options?</button>
+          </h2>
+          <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">We accept bank transfer, POS on delivery, and payment links for large orders. For event bookings we usually request a deposit.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact + Map -->
+  <section id="contact" class="py-5 bg-white">
+    <div class="container">
+      <div class="row g-4 align-items-start">
+        <div class="col-12 col-md-6">
+          <h2 class="section-title">Book a tasting or place an order</h2>
+          <p class="text-muted">Fill the form or message us directly on WhatsApp for instant replies.</p>
+
+          <form id="orderForm" class="needs-validation" novalidate>
+            <div class="mb-2">
+              <label class="form-label">Name</label>
+              <input class="form-control" required>
+              <div class="invalid-feedback">Your name, please.</div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Phone / WhatsApp</label>
+              <input class="form-control" required>
+              <div class="invalid-feedback">How can we reach you?</div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Request / Message</label>
+              <textarea class="form-control" rows="4" required></textarea>
+              <div class="invalid-feedback">Tell us what you need (date, size, flavor).</div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-gold" type="submit"><i class="bi bi-send"></i> Send Request</button>
+              <a class="btn btn-outline-dark" href="https://wa.me/14695552480" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <h6 class="mb-2">Our Location</h6>
+          <!-- placeholder map embed; replace the src with your Google maps embed -->
+          <iframe class="map-embed rounded-3 shadow-sm" loading="lazy"
+            src="https://www.google.com/maps?q=Dallas,+Texas&output=embed"
+            referrerpolicy="no-referrer-when-downgrade" aria-hidden="false" tabindex="0"></iframe>
+          <div id="deliveryMap" style="width:100%;height:320px;border-radius:12px;"></div>
+
+          <div class="mt-3 small text-muted">
+            <div><strong>Phone</strong>: +1 469 555 2480</div>
+            <div><strong>Email</strong>: hello@eclatcakes.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-light">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div>
+        <strong>Éclat Cakes</strong> • Premium Bakery Demo
+        <div class="small text-muted">Made to showcase how an upscale bakery can present itself online.</div>
+      </div>
+      <div class="small">&copy; <span id="year"></span></span> Éclat Demo — Built by Victor 
+<a href="https://wa.me/14695552480" target="_blank" class="ms-2 text-decoration-none text-success fw-semibold">
+  <i class="bi bi-whatsapp"></i> +1 469 555 2480
+</a>
+</div> </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Floating CTA -->
+<div class="mobile-cta d-md-none">
+
+  <!-- Slide Panel -->
+  <div class="mobile-cta-panel">
+    <a class="btn btn-gold w-100" href="https://wa.me/14695552480" target="_blank">
+      <i class="bi bi-whatsapp"></i> WhatsApp
+    </a>
+    <a class="btn btn-dark w-100" href="tel:+14695552480">
+      <i class="bi bi-telephone"></i> Call
+    </a>
+  </div>
+
+  <!-- Mobile Bubble -->
+  <button id="mobileCtaToggle" class="mobile-wa-bubble">
+  <i class="bi bi-chat-dots-fill"></i>
+</button>
+
+</div>
+
+  <!-- Floating WhatsApp bubble -->
+  <a id="wa-bubble" class="wa-bubble" href="https://wa.me/14695552480" target="_blank" aria-label="WhatsApp">
+    <i class="bi bi-whatsapp "></i>
+  </a>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 700, once: true, offset: 60 });
+  </script>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- General site scripts (flip gallery + modal wiring + cart integration) -->
+  <script>
+  (function(){
+    // FLIP GALLERY + PRELOAD
+    const wrap = document.querySelector('.flip-wrap');
+    if (!wrap) return;
+
+    const items = Array.from(wrap.querySelectorAll('.flip-item'));
+
+    items.forEach(it => {
+      const front = it.dataset.front || it.querySelector('.flip-front img')?.src;
+      const back  = it.dataset.back  || it.querySelector('.flip-back img')?.src;
+      [front, back].forEach(u => { if(u){ const img = new Image(); img.src = u; } });
+      const frontImg = it.querySelector('.flip-front img');
+      const backImg  = it.querySelector('.flip-back img');
+      if (front && frontImg) frontImg.src = front;
+      if (back && backImg) backImg.src = back;
+    });
+
+    function startFlips(){
+      items.forEach((el, i) => {
+        const interval = 3200 + (i * 350);
+        setTimeout(() => {
+          setInterval(() => {
+            el.classList.add('flipped');
+            setTimeout(() => el.classList.remove('flipped'), 1100);
+          }, interval);
+        }, 500 * i);
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { startFlips(); obs.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      obs.observe(wrap);
+    } else startFlips();
+
+    // PRODUCT MODAL WIRING (opens modal and fills Add-to-cart data)
+    const modalEl = document.getElementById('productModal');
+    const pmImage = document.getElementById('pm-image');
+    const pmTitle = document.getElementById('pm-title');
+    const pmPrice = document.getElementById('pm-price');
+    const pmDesc  = document.getElementById('pm-desc');
+    const pmAdd   = document.getElementById('pm-add');
+    const pmCall  = document.getElementById('pm-call');
+
+    items.forEach(it => {
+      it.querySelectorAll('.view-more').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          const title = it.dataset.title || '';
+          const price = it.dataset.price || '';
+          const desc  = it.dataset.desc || '';
+          const front = it.dataset.front || it.querySelector('.flip-front img')?.src;
+          const id    = it.dataset.id || title.toLowerCase().replace(/\s+/g,'-');
+
+          pmTitle.textContent = title;
+          pmPrice.textContent = price ? `$${Number(price).toLocaleString()}` : '';
+          pmDesc.textContent  = desc;
+          pmImage.src = front || '';
+
+          // set add button data (so clicking Add in modal adds correct product)
+          pmAdd.dataset.id = id;
+          pmAdd.dataset.title = title;
+          pmAdd.dataset.price = price ? Number(price) : 0;
+
+          // call link
+          pmCall.href = "tel:+14695552480";
+
+          // show bootstrap modal
+          const modal = new bootstrap.Modal(modalEl);
+          modal.show();
+        });
+      });
+    });
+
+    // END FLIP + MODAL
+  })();
+  // GALLERY MODAL WIRING
+document.querySelectorAll('.gallery-view').forEach(btn => {
+  btn.addEventListener('click', function(){
+
+    const title = this.dataset.title;
+    const price = this.dataset.price;
+    const desc  = this.dataset.desc;
+    const image = this.dataset.image;
+    const id    = this.dataset.id;
+
+    pmTitle.textContent = title;
+    pmPrice.textContent = `$${Number(price).toLocaleString()}`;
+    pmDesc.textContent  = desc;
+    pmImage.src = image;
+
+    pmAdd.dataset.id = id;
+    pmAdd.dataset.title = title;
+    pmAdd.dataset.price = price;
+
+    pmCall.href = "tel:+14695552480";
+
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+  });
+});
+  </script>
+
+  <!-- CART SCRIPT: unified, uses delegation so any .add-to-cart works -->
+  <script>
+(function(){
+  const waNumber = '14695552480'; // owner number — replace with real number
+  const cartKey = 'eclat_cart';
+  const docsKey = 'eclat_product_docs'; // stores product docs { id: {id,title,price} }
+
+  const openCartBtn = document.getElementById('openCartBtn');
+  const miniCart = document.getElementById('miniCart');
+  const closeCart = document.getElementById('closeCart');
+  const cartItemsWrap = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const cartCount = document.getElementById('cartCount');
+  const checkoutBtn = document.getElementById('checkoutWA');
+  const clearBtn = document.getElementById('clearCart');
+
+  // read/write helpers
+  function readCart(){ return JSON.parse(localStorage.getItem(cartKey) || '[]'); }
+  function writeCart(c){ localStorage.setItem(cartKey, JSON.stringify(c)); updateUI(); }
+  function readDocs(){ return JSON.parse(localStorage.getItem(docsKey) || '{}'); }
+  function writeDocs(d){ localStorage.setItem(docsKey, JSON.stringify(d)); }
+
+  // add product doc record (id/title/price)
+  function ensureProductDoc(item){
+    const docs = readDocs();
+    docs[item.id] = { id: item.id, title: item.title, price: Number(item.price) };
+    writeDocs(docs);
+  }
+
+  // add to cart logic (id, title, price)
+  function addToCart(item){
+    if(!item || !item.id) return;
+    const cart = readCart();
+    const found = cart.find(i=>i.id===item.id);
+    if(found) found.qty++;
+    else cart.push({ id: item.id, title: item.title, price: Number(item.price), qty: 1 });
+    writeCart(cart);
+    ensureProductDoc(item);
+
+    // show mini-cart and leave it open (no auto-hide)
+    miniCart.style.display='block';
+    // small toast feedback (non-blocking)
+    const toast = document.createElement('div');
+    toast.className = 'alert alert-success';
+    toast.style.position = 'fixed';
+    toast.style.right = '18px';
+    toast.style.top = '110px';
+    toast.style.zIndex = 1200;
+    toast.textContent = `${item.title} added to cart`;
+    document.body.appendChild(toast);
+    setTimeout(()=> toast.remove(), 1400);
+  }
+
+  // update mini-cart UI
+  function updateUI(){
+    const cart = readCart();
+    cartItemsWrap.innerHTML = '';
+    let total = 0, count = 0;
+    cart.forEach(i=>{
+      // build row with quantity controls + remove
+      const row = document.createElement('div');
+      row.className = 'cart-row py-2';
+      row.innerHTML = `
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <div class="fw-semibold">${escapeHtml(i.title)}</div>
+            <div class="text-muted small">$${Number(i.price).toLocaleString()} each</div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-secondary cart-decrease" data-id="${i.id}" aria-label="Decrease">−</button>
+            <div class="px-2" style="min-width:28px; text-align:center;"><span class="cart-qty" data-id="${i.id}">${i.qty}</span></div>
+            <button class="btn btn-sm btn-outline-secondary cart-increase" data-id="${i.id}" aria-label="Increase">+</button>
+            <button class="btn btn-sm btn-link text-danger cart-remove" data-id="${i.id}">Remove</button>
+          </div>
+        </div>
+      `;
+      cartItemsWrap.appendChild(row);
+      total += i.price * i.qty;
+      count += i.qty;
+    });
+    cartTotal.textContent = `$${total.toLocaleString()}`;
+    cartCount.textContent = count;
+  }
+
+  // helper: escape text for insertion
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+  }
+
+  // event delegation for Add to Cart buttons
+  document.addEventListener('click', function(e){
+    const addBtn = e.target.closest('.add-to-cart');
+    if(addBtn){
+      e.preventDefault();
+      const id = addBtn.dataset.id || addBtn.closest('.card')?.dataset.id || addBtn.closest('.flip-item')?.dataset.id || '';
+      const title = addBtn.dataset.title || addBtn.closest('.card')?.dataset.title || addBtn.closest('.flip-item')?.dataset.title || 'Product';
+      const priceRaw = addBtn.dataset.price || addBtn.closest('.card')?.dataset.price || addBtn.closest('.flip-item')?.dataset.price || '0';
+      const price = Number(priceRaw);
+      addToCart({ id, title, price });
+      return;
+    }
+
+    // quantity and remove buttons inside the mini-cart
+    const dec = e.target.closest('.cart-decrease');
+    if(dec){
+      e.preventDefault();
+      const id = dec.dataset.id;
+      changeQty(id, -1);
+      return;
+    }
+    const inc = e.target.closest('.cart-increase');
+    if(inc){
+      e.preventDefault();
+      const id = inc.dataset.id;
+      changeQty(id, +1);
+      return;
+    }
+    const rem = e.target.closest('.cart-remove');
+    if(rem){
+      e.preventDefault();
+      const id = rem.dataset.id;
+      removeItem(id);
+      return;
+    }
+  });
+
+  // change quantity helper
+  function changeQty(id, delta){
+    const cart = readCart();
+    const idx = cart.findIndex(i=>i.id===id);
+    if(idx === -1) return;
+    cart[idx].qty = Math.max(0, cart[idx].qty + delta);
+    if(cart[idx].qty <= 0) cart.splice(idx,1);
+    writeCart(cart);
+  }
+
+  function removeItem(id){
+    const cart = readCart().filter(i=>i.id !== id);
+    writeCart(cart);
+  }
+
+  // open/close cart
+  openCartBtn?.addEventListener('click', ()=> miniCart.style.display='block');
+  closeCart?.addEventListener('click', ()=> miniCart.style.display='none');
+  clearBtn?.addEventListener('click', ()=> { localStorage.removeItem(cartKey); updateUI(); });
+
+  // build WA message including id, qty, price, and total
+  checkoutBtn?.addEventListener('click', ()=>{
+    const cart = readCart();
+    if(!cart.length) return alert('Your cart is empty.');
+    let text = 'Hello Éclat Cakes!%0AI would like to order:%0A';
+    let grandTotal = 0;
+    cart.forEach(i=>{
+      const subtotal = i.price * i.qty;
+      grandTotal += subtotal;
+      text += `- ${i.title} (id:${i.id}) x${i.qty} — $${i.price.toLocaleString()} each — subtotal $${subtotal.toLocaleString()}%0A`;
+    });
+    text += `%0ATotal: $${grandTotal.toLocaleString()}%0A%0APlease confirm availability and delivery.`;
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, '_blank');
+  });
+
+  // initialize UI
+  updateUI();
+
+})();
+</script>
+<script>
+  const mobileToggle = document.getElementById('mobileCtaToggle');
+  const mobileCta = document.querySelector('.mobile-cta');
+
+  mobileToggle.addEventListener('click', () => {
+    mobileCta.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

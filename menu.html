@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Menu — Éclat Cakes</title>
+
+  <!-- Bootstrap (keeps visual parity with existing site) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Your project's styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    
+    .gallery-add {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      z-index: 9;
+      border-radius: 999px;
+      padding: .35rem .6rem;
+      box-shadow: 0 10px 30px rgba(8,10,20,0.12);
+      font-weight: 700;
+    }
+    .masonry-item { position: relative; overflow: hidden; cursor: pointer; }
+    .masonry-item img { width:100%; display:block; }
+    .lightbox-meta { color: #fff; text-align:center; margin-top: .75rem; }
+    .lightbox-price { font-weight:700; margin-top:.35rem; display:block; }
+    /* Mini cart basics */
+    .mini-cart{ position:fixed; right:16px; bottom:120px; width:360px; max-width:92vw; z-index:1100; background:#fff; border-radius:12px; box-shadow:0 24px 80px rgba(4,8,12,0.12); padding:14px; display:none; }
+    .mini-cart-inner{ max-height:60vh; overflow:auto; }
+    .cart-fab{ position:fixed; right:18px; bottom:18px; z-index:1101; border-radius:50%; width:56px; height:56px; display:flex; align-items:center; justify-content:center; background:var(--gold, #D4AF37); color:#071018; box-shadow:0 18px 48px rgba(4,8,12,0.15); border:none; }
+    .cart-count{ position:absolute; top:-6px; right:-6px; background:#071018; color:#fff; width:20px; height:20px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; font-size:.75rem; }
+    .cart-row { border-bottom: 1px dashed rgba(0,0,0,0.06); padding: .5rem 0; }
+    .mini-cart .btn-sm { padding: .22rem .5rem; line-height: 1; }
+    .cart-qty { font-weight: 600; min-width: 24px; display:inline-block; text-align:center; }
+    @media(max-width:576px){ .mini-cart{ right:8px; left:8px; bottom:86px; width:auto; } .gallery-add{ right:10px; bottom:10px; } }
+  </style>
+</head>
+<body>
+
+  <!-- Mini Cart -->
+  <aside id="miniCart" class="mini-cart" aria-hidden="true">
+    <div class="mini-cart-inner">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>Your Order</strong>
+        <button id="closeCart" class="btn btn-sm btn-outline-dark" aria-label="Close cart">&times;</button>
+      </div>
+      <div id="cartItems" class="cart-items" aria-live="polite"></div>
+      <div class="mt-3">
+        <div class="d-flex justify-content-between">
+          <div><strong>Total</strong></div>
+          <div id="cartTotal">$0</div>
+        </div>
+        <div class="mt-3 d-flex gap-2">
+          <button id="checkoutWA" class="btn btn-gold flex-fill"><i class="bi bi-whatsapp"></i> Checkout via WhatsApp</button>
+          <button id="clearCart" class="btn btn-outline-dark">Clear</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <button id="openCartBtn" class="cart-fab" aria-label="Open cart"><i class="bi bi-cart"></i><span id="cartCount" class="cart-count">0</span></button>
+
+  <!-- NAV -->
+ <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <div class="brand-mark">É</div>
+        <div>
+          <div class="fw-bold">Éclat Cakes</div>
+          <small class="text-muted d-none d-md-block">Premium Cakes & Pastries — Dallas, Texas</small>
+        </div>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navCollapse">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="index">Home</a></li>
+          <li class="nav-item"><a class="nav-link " href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="menu">Menu</a></li>
+          <li class="nav-item"><a class="btn btn-outline-dark ms-2" href="contact">Book a Tasting</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / PAGE TITLE -->
+  <header class="page-hero">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Menu</li>
+        </ol>
+      </nav>
+
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="display-5 fw-bold">Menu — Our Bespoke Cakes & Creations</h1>
+          <p class="lead text-muted">Large, tall imagery designed to show detail, texture and premium finishes. Click an image to view larger, or use the filters to see categories.</p>
+        </div>
+
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <div class="d-flex justify-content-md-end gallery-filters flex-wrap">
+            <button class="btn btn-outline-dark filter-btn active" data-filter="all">All</button>
+            <button class="btn btn-outline-dark filter-btn" data-filter="wedding">Wedding</button>
+            <button class="btn btn-outline-dark filter-btn" data-filter="birthday">Birthday</button>
+            <button class="btn btn-outline-dark filter-btn" data-filter="pastries">Pastries</button>
+            <button class="btn btn-outline-dark filter-btn" data-filter="custom">Custom</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- GALLERY GRID (all 40 figures remain as you provided) -->
+  <main class="py-4">
+    <div class="container">
+      <div id="masonry" class="masonry" aria-live="polite">
+        <!-- (All 40 figure tags — unchanged) -->
+        <!-- WEDDING 1 -->
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 1" data-index="0">
+          <img src="images/image-one.webp" loading="lazy" alt="Wedding cake 1">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Tiered florals — image one</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 2" data-index="1">
+          <img src="images/image-two.webp" loading="lazy" alt="Wedding cake 2">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Elegant fondant — image two</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 3" data-index="2">
+          <img src="images/image-three.webp" loading="lazy" alt="Wedding cake 3">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Romantic tiers — image three</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 4" data-index="3">
+          <img src="images/image-four.webp" loading="lazy" alt="Wedding cake 4">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Sugar flower detail — image four</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 5" data-index="4">
+          <img src="images/image-five.webp" loading="lazy" alt="Wedding cake 5">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Classic ivory — image five</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 6" data-index="5">
+          <img src="images/image-six.webp" loading="lazy" alt="Wedding cake 6">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Textured buttercream — image six</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 7" data-index="6">
+          <img src="images/image-seven.webp" loading="lazy" alt="Wedding cake 7">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Lace piping detail — image seven</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 8" data-index="7">
+          <img src="images/image-eight.webp" loading="lazy" alt="Wedding cake 8">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Gold leaf accents — image eight</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 9" data-index="8">
+          <img src="images/image-nine.webp" loading="lazy" alt="Wedding cake 9">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Delicate tiers — image nine</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="wedding" tabindex="0" aria-label="Open image 10" data-index="9">
+          <img src="images/image-ten.webp" loading="lazy" alt="Wedding cake 10">
+          <figcaption class="masonry-caption"><span class="cat-pill">Wedding</span> Floral cascade — image ten</figcaption>
+        </figure>
+
+        <!-- BIRTHDAY 11-20 -->
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 11" data-index="10">
+          <img src="images/image-fifteen.webp" loading="lazy" alt="Birthday cake 1">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Colorful buttercream — image eleven</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 12" data-index="11">
+          <img src="images/image-twelve.webp" loading="lazy" alt="Birthday cake 2">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Character theme — image twelve</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 13" data-index="12">
+          <img src="images/image-thirteen.webp" loading="lazy" alt="Birthday cake 3">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Confetti finish — image thirteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 14" data-index="13">
+          <img src="images/image-fourteen.webp" loading="lazy" alt="Birthday cake 4">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Layered colors — image fourteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 15" data-index="14">
+          <img src="images/image-fifteen.webp" loading="lazy" alt="Birthday cake 5">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Balloon theme — image fifteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 16" data-index="15">
+          <img src="images/image-sixteen.webp" loading="lazy" alt="Birthday cake 6">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Sprinkles & charm — image sixteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 17" data-index="16">
+          <img src="images/image-seventeen.webp" loading="lazy" alt="Birthday cake 7">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Personalized name topper — image seventeen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 18" data-index="17">
+          <img src="images/image-eighteen.webp" loading="lazy" alt="Birthday cake 8">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Candy drip — image eighteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 19" data-index="18">
+          <img src="images/image-nineteen.webp" loading="lazy" alt="Birthday cake 9">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Themed topper — image nineteen</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="birthday" tabindex="0" aria-label="Open image 20" data-index="19">
+          <img src="images/image-twenty.webp" loading="lazy" alt="Birthday cake 10">
+          <figcaption class="masonry-caption"><span class="cat-pill">Birthday</span> Mini cupcake tower — image twenty</figcaption>
+        </figure>
+
+        <!-- PASTRIES 21-30 -->
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 21" data-index="20">
+          <img src="images/image-twentyone.webp" loading="lazy" alt="Pastry 1">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Assorted tarts — image twentyone</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 22" data-index="21">
+          <img src="images/image-twentytwo.webp" loading="lazy" alt="Pastry 2">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Croissant display — image twentytwo</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 23" data-index="22">
+          <img src="images/image-twentythree.webp" loading="lazy" alt="Pastry 3">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Macaron assortment — image twentythree</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 24" data-index="23">
+          <img src="images/image-twentyfour.webp" loading="lazy" alt="Pastry 4">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Mini tart detail — image twentyfour</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 25" data-index="24">
+          <img src="images/image-twentyfive.webp" loading="lazy" alt="Pastry 5">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Eclair selection — image twentyfive</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 26" data-index="25">
+          <img src="images/image-twentysix.webp" loading="lazy" alt="Pastry 6">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Cookie display — image twentysix</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 27" data-index="26">
+          <img src="images/image-twentyseven.webp" loading="lazy" alt="Pastry 7">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Brownie close-up — image twentyseven</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 28" data-index="27">
+          <img src="images/image-seven.webp" loading="lazy" alt="Pastry 8">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Danish assortment — image twentyeight</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 29" data-index="28">
+          <img src="images/image-seven.webp" loading="lazy" alt="Pastry 9">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Mini cakes — image seven</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="pastries" tabindex="0" aria-label="Open image 30" data-index="29">
+          <img src="images/image-thirty.webp" loading="lazy" alt="Pastry 10">
+          <figcaption class="masonry-caption"><span class="cat-pill">Pastries</span> Dessert platter — image thirty</figcaption>
+        </figure>
+
+        <!-- CUSTOM 31-40 -->
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 31" data-index="30">
+          <img src="images/image-thirtyone.webp" loading="lazy" alt="Custom cake 1">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Sculpted cake — image thirtyone</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 32" data-index="31">
+          <img src="images/image-thirtytwo.webp" loading="lazy" alt="Custom cake 2">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> 3D shaped cake — image thirtytwo</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 33" data-index="32">
+          <img src="images/image-seven.webp" loading="lazy" alt="Custom cake 3">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Carved design — image thirtythree</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 34" data-index="33">
+          <img src="images/image-thirtyfour.webp" loading="lazy" alt="Custom cake 4">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Painted finish — image thirtyfour</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 35" data-index="34">
+          <img src="images/image-thirtyfive.webp" loading="lazy" alt="Custom cake 5">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Metallic sheen — image thirtyfive</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 36" data-index="35">
+          <img src="images/image-thirty.webp" loading="lazy" alt="Custom cake 6">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Novelty sculpt — image thirtysix</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 37" data-index="36">
+          <img src="images/image-thirtytwo.webp" loading="lazy" alt="Custom cake 7">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Edible print design — image thirtyseven</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 38" data-index="37">
+          <img src="images/image-twenty.webp" loading="lazy" alt="Custom cake 8">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Architectural cake — image thirtyeight</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 39" data-index="38">
+          <img src="images/image-twentyone.webp" loading="lazy" alt="Custom cake 9">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Sculpted figure — image thirtynine</figcaption>
+        </figure>
+
+        <figure class="masonry-item" data-cat="custom" tabindex="0" aria-label="Open image 40" data-index="39">
+          <img src="images/image-ten.webp" loading="lazy" alt="Custom cake 10">
+          <figcaption class="masonry-caption"><span class="cat-pill">Custom</span> Bespoke concept — image forty</figcaption>
+        </figure>
+      </div>
+
+      <!-- small note / CTA -->
+      <div class="text-center mt-4">
+        <a class="btn btn-gold me-2" href="contact.html">Book a Tasting</a>
+        <a class="btn btn-outline-dark" href="index.html">Back to Home</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- LIGHTBOX (modal) -->
+  <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body d-flex flex-column justify-content-center align-items-center position-relative p-0">
+          <button type="button" class="btn btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+          <button id="lbPrev" class="btn btn-light position-absolute top-50 start-0 translate-middle-y ms-2 visually-hidden-focusable" aria-label="Previous image">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+
+          <img id="lightboxImage" class="lightbox-img rounded" alt="Enlarged image" src="" />
+
+          <button id="lbNext" class="btn btn-light position-absolute top-50 end-0 translate-middle-y me-2 visually-hidden-focusable" aria-label="Next image">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+          <div id="lightboxCaption" class="text-white small mt-3"></div>
+          
+
+          <!-- Add to Cart button inside lightbox opens the product detail modal -->
+          <button id="lbAddBtn" class="btn btn-gold mt-3" type="button" aria-label="Add to cart from lightbox" style="display:none;">
+            <i class="bi bi-cart-plus"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Floating CTA -->
+<div class="mobile-cta d-md-none">
+
+  <!-- Slide Panel -->
+  <div class="mobile-cta-panel">
+    <a class="btn btn-gold w-100" href="https://wa.me/14695552480" target="_blank">
+      <i class="bi bi-whatsapp"></i> WhatsApp
+    </a>
+    <a class="btn btn-dark w-100" href="tel:+14695552480">
+      <i class="bi bi-telephone"></i> Call
+    </a>
+  </div>
+
+  <!-- Mobile Bubble -->
+  <button id="mobileCtaToggle" class="mobile-wa-bubble">
+  <i class="bi bi-chat-dots-fill"></i>
+</button>
+
+</div>
+  <!-- PRODUCT DETAIL MODAL (shows image, full desc, price, qty, Confirm Add) -->
+  <div class="modal fade" id="productDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="row g-0">
+            <div class="col-md-7">
+              <img id="pd-image" src="" alt="" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="col-md-5 p-4">
+              <h4 id="pd-title"></h4>
+              <div class="text-muted mb-2" id="pd-price"></div>
+              <p id="pd-desc" class="small"></p>
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <label class="mb-0">Quantity</label>
+                <input id="pd-qty" type="number" min="1" value="1" class="form-control" style="width:90px;">
+              </div>
+
+              <div class="d-flex gap-2">
+                <button id="pd-confirm" class="btn btn-gold"><i class="bi bi-cart-plus"></i> Confirm Add</button>
+                <button id="pd-cancel" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-light">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div>
+        <strong>Éclat Cakes</strong> • Premium Bakery Demo
+        <div class="small text-muted">Made to showcase how an upscale bakery can present itself online.</div>
+      </div>
+      <div class="small">&copy; <span id="year"></span></span> Éclat Demo — Built by Victor 
+<a href="https://wa.me/14695552480" target="_blank" class="ms-2 text-decoration-none text-success fw-semibold">
+  <i class="bi bi-whatsapp"></i> +1 469 555 2480
+</a>
+</div> </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Gallery, lightbox, product-detail and cart script -->
+  <script>
+  (function () {
+    // ----- CONFIG -----
+    const waNumber = '14695552480'; // <<-- replaced with shop owner WA number (US dummy)
+
+    // ----- DOM refs -----
+    const filterBtns = Array.from(document.querySelectorAll('.filter-btn'));
+    const items = Array.from(document.querySelectorAll('.masonry-item'));
+
+    const modalEl = document.getElementById('lightboxModal');
+    const bsLightbox = new bootstrap.Modal(modalEl, { keyboard: false, backdrop: 'static' });
+    const modalImg = document.getElementById('lightboxImage');
+    const modalCaption = document.getElementById('lightboxCaption');
+    const modalDesc = document.getElementById('lightboxDesc');
+    const modalPrice = document.getElementById('lightboxPrice');
+    const prevBtn = document.getElementById('lbPrev');
+    const nextBtn = document.getElementById('lbNext');
+    const lbAddBtn = document.getElementById('lbAddBtn');
+
+    // Product detail modal
+    const pdEl = document.getElementById('productDetailModal');
+    const bsPd = new bootstrap.Modal(pdEl, { keyboard: false, backdrop: 'static' });
+    const pdImage = document.getElementById('pd-image');
+    const pdTitle = document.getElementById('pd-title');
+    const pdPrice = document.getElementById('pd-price');
+    const pdDesc = document.getElementById('pd-desc');
+    const pdQty = document.getElementById('pd-qty');
+    const pdConfirm = document.getElementById('pd-confirm');
+    const pdCancel = document.getElementById('pd-cancel');
+
+    // cart refs
+    const cartKey = 'eclat_cart';
+    const docsKey = 'eclat_product_docs';
+    const openCartBtn = document.getElementById('openCartBtn');
+    const miniCart = document.getElementById('miniCart');
+    const closeCart = document.getElementById('closeCart');
+    const cartItemsWrap = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cartCount');
+    const checkoutBtn = document.getElementById('checkoutWA');
+    const clearBtn = document.getElementById('clearCart');
+
+    // ----- Utilities: price defaults and helpers -----
+    const priceMap = { wedding: 2500, birthday: 95, pastries: 45, custom: 3200, default: 120 };
+
+    function readCart(){ return JSON.parse(localStorage.getItem(cartKey) || '[]'); }
+    function writeCart(c){ localStorage.setItem(cartKey, JSON.stringify(c)); updateUI(); }
+    function readDocs(){ return JSON.parse(localStorage.getItem(docsKey) || '{}'); }
+    function writeDocs(d){ localStorage.setItem(docsKey, JSON.stringify(d)); }
+
+    function escapeHtml(str){
+      return String(str||'').replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+    }
+
+    // Build products JSON from DOM (you can also set data-price/data-desc/data-title on figures to override)
+    const products = {}; // id -> {id,title,price,desc,image}
+    items.forEach((it, idx) => {
+      const img = it.querySelector('img');
+      const captionText = it.querySelector('.masonry-caption')?.textContent?.trim() || `Menu item ${idx+1}`;
+      const title = captionText.replace(/\s*—.*$/,'').trim() || `Menu item ${idx+1}`;
+      const cat = it.dataset.cat || 'default';
+      const price = it.dataset.price ? Number(it.dataset.price) : (priceMap[cat] || priceMap.default);
+      const desc = it.dataset.desc || captionText + ' — Dummy description for demonstration.';
+      const id = it.dataset.id || `menu-${idx+1}`;
+      // store product
+      products[id] = { id, title, price, desc, image: img?.src || '' };
+
+      // inject small gallery-meta and add button (preserve existing figcaption)
+      const meta = document.createElement('div');
+      
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'btn btn-sm btn-gold add-to-cart gallery-add';
+      addBtn.textContent = 'Add to Cart';
+      // attach product data to the button
+      addBtn.dataset.id = id;
+      addBtn.dataset.title = title;
+      addBtn.dataset.price = price;
+      addBtn.dataset.desc = desc;
+      // append meta and button
+      it.appendChild(addBtn);
+    });
+
+    // Persist product docs (optional)
+    writeDocs(products);
+
+    // ----- FILTERING -----
+    function applyFilter(cat) {
+      filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === cat));
+      items.forEach(it => {
+        if (cat === 'all' || it.dataset.cat === cat) {
+          it.style.display = '';
+          setTimeout(() => it.style.opacity = '1', 20);
+        } else {
+          it.style.opacity = '0';
+          setTimeout(() => it.style.display = 'none', 240);
+        }
+      });
+    }
+    filterBtns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.filter)));
+    applyFilter('all');
+
+    // ----- LIGHTBOX wiring -----
+    let currentIndex = 0;
+    function openLightbox(index) {
+      const target = items[index];
+      if (!target) return;
+      const img = target.querySelector('img');
+      modalImg.src = img.src;
+      modalImg.srcset = img.srcset || '';
+      const captionText = target.querySelector('.masonry-caption')?.textContent?.trim() || '';
+      modalCaption.textContent = captionText;
+      // show desc and price in lightbox (from product)
+      const prodId = target.querySelector('.gallery-add')?.dataset.id;
+      const p = products[prodId];
+      if (modalDesc) modalDesc.textContent = p?.desc || '';
+      if (modalPrice) modalPrice.textContent = p ? `$${Number(p.price).toLocaleString()}` : '';
+      // set lbAddBtn dataset for product detail modal
+      if (p) {
+        lbAddBtn.style.display = '';
+        lbAddBtn.dataset.id = p.id;
+        lbAddBtn.dataset.title = p.title;
+        lbAddBtn.dataset.price = p.price;
+        lbAddBtn.dataset.desc = p.desc;
+        lbAddBtn.dataset.image = p.image;
+      } else {
+        lbAddBtn.style.display = 'none';
+      }
+      currentIndex = index;
+      bsLightbox.show();
+      updateNavVisibility();
+    }
+    function updateNavVisibility() {
+      prevBtn.style.display = (currentIndex > 0) ? '' : 'none';
+      nextBtn.style.display = (currentIndex < items.length - 1) ? '' : 'none';
+    }
+    items.forEach((it, idx) => {
+      it.addEventListener('click', (e) => {
+        if (e.target.closest('.gallery-add')) return; // clicking add overlay should NOT open lightbox
+        openLightbox(idx);
+      });
+      it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); } });
+    });
+    prevBtn?.addEventListener('click', () => openLightbox(Math.max(0, currentIndex - 1)));
+    nextBtn?.addEventListener('click', () => openLightbox(Math.min(items.length - 1, currentIndex + 1)));
+    document.addEventListener('keydown', (e) => {
+      if (!document.querySelector('.modal.show')) return;
+      if (e.key === 'ArrowLeft') prevBtn?.click();
+      if (e.key === 'ArrowRight') nextBtn?.click();
+      if (e.key === 'Escape') bootstrap.Modal.getInstance(modalEl)?.hide();
+    });
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      modalImg.src = '';
+      modalImg.srcset = '';
+      modalCaption.textContent = '';
+      if (modalDesc) modalDesc.textContent = '';
+      if (modalPrice) modalPrice.textContent = '';
+      lbAddBtn.style.display = 'none';
+      lbAddBtn.removeAttribute('data-id');
+      lbAddBtn.removeAttribute('data-title');
+      lbAddBtn.removeAttribute('data-price');
+      lbAddBtn.removeAttribute('data-desc');
+      lbAddBtn.removeAttribute('data-image');
+    });
+
+    // ----- PRODUCT DETAIL modal functions -----
+    let pdPendingProduct = null; // product object pending confirmation
+    function openProductDetail(prodId, sourceImageSrc){
+      const p = products[prodId] || null;
+      if(!p) return;
+      pdPendingProduct = p;
+      pdImage.src = sourceImageSrc || p.image || '';
+      pdTitle.textContent = p.title;
+      pdPrice.textContent = `$${Number(p.price).toLocaleString()}`;
+      pdDesc.textContent = p.desc;
+      pdQty.value = 1;
+      bsPd.show();
+    }
+    // wire lightbox add: opens product detail modal
+    lbAddBtn.addEventListener('click', () => {
+      const id = lbAddBtn.dataset.id;
+      const img = lbAddBtn.dataset.image || modalImg.src || '';
+      openProductDetail(id, img);
+      bsLightbox.hide();
+    });
+
+    // overlay add buttons open product detail modal
+    document.addEventListener('click', (e) => {
+      const overlay = e.target.closest('.gallery-add');
+      if (overlay){
+        e.preventDefault();
+        const id = overlay.dataset.id;
+        const image = overlay.closest('.masonry-item')?.querySelector('img')?.src || overlay.dataset.image || '';
+        openProductDetail(id, image);
+        return;
+      }
+    });
+
+    // Confirm add from product detail modal
+    pdConfirm.addEventListener('click', () => {
+      if(!pdPendingProduct) return;
+      const qty = Math.max(1, parseInt(pdQty.value || '1', 10));
+      addToCart(pdPendingProduct, qty);
+      bsPd.hide();
+    });
+    // cancel simply closes (bootstrap handles)
+    pdCancel.addEventListener('click', () => { pdPendingProduct = null; });
+
+    // ----- CART: add, update UI, remove, checkout -----
+    function ensureProductDoc(item){ // store doc
+      const docs = readDocs();
+      docs[item.id] = { id: item.id, title: item.title, price: Number(item.price) };
+      writeDocs(docs);
+    }
+
+    function addToCart(item, qty = 1){
+      if(!item || !item.id) return;
+      const cart = readCart();
+      const found = cart.find(i=>i.id===item.id);
+      if(found) found.qty += qty;
+      else cart.push({ id: item.id, title: item.title, price: Number(item.price), qty });
+      writeCart(cart);
+      ensureProductDoc(item);
+
+      // show mini-cart and keep it open
+      miniCart.style.display = 'block';
+      // short toast
+      const toast = document.createElement('div');
+      toast.className = 'alert alert-success';
+      toast.style.position = 'fixed'; toast.style.right = '18px'; toast.style.top = '110px'; toast.style.zIndex = 1200;
+      toast.textContent = `${item.title} (x${qty}) added to cart`;
+      document.body.appendChild(toast);
+      setTimeout(()=> toast.remove(), 1400);
+    }
+
+    function updateUI(){
+      const cart = readCart();
+      cartItemsWrap.innerHTML = '';
+      let total = 0, count = 0;
+      cart.forEach(i=>{
+        const row = document.createElement('div');
+        row.className = 'cart-row';
+        row.innerHTML = `
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <div class="fw-semibold">${escapeHtml(i.title)}</div>
+              <div class="text-muted small">$${Number(i.price).toLocaleString()} each</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-outline-secondary cart-decrease" data-id="${i.id}" aria-label="Decrease">−</button>
+              <div class="px-2" style="min-width:28px; text-align:center;"><span class="cart-qty" data-id="${i.id}">${i.qty}</span></div>
+              <button class="btn btn-sm btn-outline-secondary cart-increase" data-id="${i.id}" aria-label="Increase">+</button>
+              <button class="btn btn-sm btn-link text-danger cart-remove" data-id="${i.id}">Remove</button>
+            </div>
+          </div>
+        `;
+        cartItemsWrap.appendChild(row);
+        total += i.price * i.qty;
+        count += i.qty;
+      });
+      cartTotal.textContent = `$${total.toLocaleString()}`;
+      cartCount.textContent = count;
+    }
+
+    // quantity change and remove via delegation
+    document.addEventListener('click', function(e){
+      const dec = e.target.closest('.cart-decrease');
+      if(dec){ e.preventDefault(); changeQty(dec.dataset.id, -1); return; }
+      const inc = e.target.closest('.cart-increase');
+      if(inc){ e.preventDefault(); changeQty(inc.dataset.id, +1); return; }
+      const rem = e.target.closest('.cart-remove');
+      if(rem){ e.preventDefault(); removeItem(rem.dataset.id); return; }
+    });
+
+    function changeQty(id, delta){
+      const cart = readCart();
+      const idx = cart.findIndex(i=>i.id===id);
+      if(idx === -1) return;
+      cart[idx].qty = Math.max(0, cart[idx].qty + delta);
+      if(cart[idx].qty <= 0) cart.splice(idx,1);
+      writeCart(cart);
+    }
+    function removeItem(id){
+      const cart = readCart().filter(i=>i.id !== id);
+      writeCart(cart);
+    }
+    openCartBtn?.addEventListener('click', ()=> miniCart.style.display='block');
+    closeCart?.addEventListener('click', ()=> miniCart.style.display='none');
+    clearBtn?.addEventListener('click', ()=> { localStorage.removeItem(cartKey); updateUI(); });
+
+    checkoutBtn?.addEventListener('click', ()=>{
+      const cart = readCart();
+      if(!cart.length) return alert('Your cart is empty.');
+      let text = 'Hello Éclat Cakes!%0AI would like to order:%0A';
+      let grandTotal = 0;
+      cart.forEach(i=>{
+        const subtotal = i.price * i.qty;
+        grandTotal += subtotal;
+        text += `- ${i.title} (id:${i.id}) x${i.qty} — $${i.price.toLocaleString()} each — subtotal $${subtotal.toLocaleString()}%0A`;
+      });
+      text += `%0ATotal: $${grandTotal.toLocaleString()}%0A%0APlease confirm availability and delivery.`;
+      const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, '_blank');
+    });
+
+    // ---- lightbox Add button should open product detail modal (wired above),
+    // but also add keyboard accessibility for lbAddBtn
+    lbAddBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter') lbAddBtn.click(); });
+
+    // initialize cart UI
+    updateUI();
+
+    // expose openProductDetail if needed elsewhere
+    window.EclatGallery = { openProductDetail, products };
+
+  })();
+  </script>
+  <script>
+  const mobileToggle = document.getElementById('mobileCtaToggle');
+  const mobileCta = document.querySelector('.mobile-cta');
+
+  mobileToggle.addEventListener('click', () => {
+    mobileCta.classList.toggle('active');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kick Platform Demo — Premium Demo Site</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#fafafa;
+      --muted:#6b7280;
+      --accent:#0f172a; /* deep navy */
+      --gold:#D4AF37;   /* gold accent */
+      --gold-2:#C59A6B;
+      --card-radius:14px;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:var(--accent);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* HERO / INFORMATION section */
+    .hero {
+      position:relative;
+      min-height:68vh;
+      display:flex;
+      align-items:center;
+      color: #fff;
+      overflow:hidden;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+    .hero .overlay {
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(3,7,18,0.45) 0%, rgba(3,7,18,0.65) 100%);
+      z-index:1;
+    }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      padding: 3rem 1.25rem;
+      width:100%;
+    }
+    .hero h1{
+      font-size:clamp(1.6rem, 3.6vw, 2.6rem);
+      line-height:1.05;
+      font-weight:700;
+      margin-bottom:.6rem;
+      text-shadow:0 6px 18px rgba(0,0,0,0.35);
+    }
+    .hero p.lead{
+      color:rgba(255,255,255,0.92);
+      max-width: 680px;
+      margin-bottom:1.25rem;
+    }
+    .hero .hero-ctas .btn{
+      border-radius:999px;
+      padding: .7rem 1.1rem;
+      font-weight:600;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.35);
+    }
+
+    /* gold button */
+    .btn-gold{
+      background: linear-gradient(90deg, var(--gold), var(--gold-2));
+      color:#08111a;
+      border: none;
+    }
+
+    /* background image slides */
+    .hero-bg {
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-size:cover;
+      background-position:center;
+      transition: opacity 800ms ease;
+      will-change: opacity, transform;
+    }
+    .bg-fade {
+      opacity:0;
+    }
+    .bg-visible {
+      opacity:1;
+    }
+
+    /* Trusted row */
+    .trusted {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-top:.9rem;
+      color:rgba(255,255,255,0.9);
+    }
+    .trusted .dot{
+      height:8px;width:8px;border-radius:50%;
+      background:var(--gold);
+      display:inline-block;margin-right:.5rem;
+    }
+
+    /* Portrait rotating row */
+    .portrait-row {
+      padding:3rem 1rem;
+      background:linear-gradient(180deg, #fff 0%, #fbfbfd 100%);
+    }
+    .portraits {
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      flex-wrap:nowrap;
+      overflow:hidden;
+      scroll-snap-type: x mandatory;
+    }
+    .portrait {
+      width:84px;
+      height:84px;
+      min-width:84px;
+      border-radius:50%;
+      overflow:hidden;
+      flex:0 0 auto;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.08);
+      border:3px solid rgba(0,0,0,0.04);
+      background-size:cover;
+      background-position:center;
+      transition: transform .45s ease, box-shadow .45s ease;
+    }
+    .portrait:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.14); }
+
+    /* Products grid */
+    .products { padding:2.5rem 1rem; }
+    .product-card {
+      border-radius: 14px;
+      padding: 1rem;
+      background:linear-gradient(180deg, #fff, #fff);
+      box-shadow: 0 8px 30px rgba(11,22,40,0.04);
+      transition: transform .3s ease;
+    }
+    .product-card:hover { transform: translateY(-6px); }
+
+    /* Testimonials */
+    .testimonial {
+      padding: 2rem;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff, #fff);
+      box-shadow: 0 8px 30px rgba(11,22,40,0.03);
+    }
+
+    /* Contact & map */
+    .map-embed {
+      border-radius:12px;
+      border: none;
+      width:100%; height:280px;
+    }
+
+    /* sticky CTA bar mobile */
+    .sticky-cta {
+      position:fixed;
+      left:12px; right:12px; bottom:12px;
+      z-index:1050;
+      display:none;
+      gap:.5rem;
+      justify-content:center;
+    }
+    @media (max-width: 768px){
+      .sticky-cta{ display:flex; }
+      .hero { min-height:62vh; border-bottom-left-radius:18px; border-bottom-right-radius:18px; }
+    }
+
+    footer{ padding:2rem 1rem; color:var(--muted); font-size:.95rem; }
+
+    /* accessibility: reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .hero-bg, .portrait, .product-card { transition:none !important; animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO / Info section with changing backgrounds -->
+  <header class="hero">
+    <div id="heroBg0" class="hero-bg bg-visible" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop');"></div>
+    <div id="heroBg1" class="hero-bg bg-fade" style="background-image:url('https://images.unsplash.com/photo-1526045612212-70caf35c14df?q=80&w=1600&auto=format&fit=crop');"></div>
+    <div id="heroBg2" class="hero-bg bg-fade" style="background-image:url('https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1600&auto=format&fit=crop');"></div>
+
+    <div class="overlay"></div>
+
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-7">
+          <div class="badge bg-dark-subtle text-dark mb-3" style="display:inline-flex;align-items:center;gap:.6rem;padding:.45rem .7rem;border-radius:999px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block"></span>
+            Premium Demo for Local Businesses
+          </div>
+
+          <h1>Make your business irresistible online — easy, fast, and premium</h1>
+          <p class="lead">Beautiful, conversion-focused websites for shops, fashion brands, restaurants, churches, schools and more. Showcase products, accept orders, and turn visitors into customers.</p>
+
+          <div class="hero-ctas d-flex flex-wrap gap-2">
+            <a class="btn btn-gold me-1" href="tel:+234000000000"><i class="bi bi-telephone"></i> Call</a>
+            <a class="btn btn-outline-light" href="https://wa.me/234000000000" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+            <a class="btn btn-light" href="#contact"><i class="bi bi-calendar-check"></i> Book Now</a>
+          </div>
+
+          <div class="trusted mt-3">
+            <span class="dot"></span> Trusted by local businesses in Lagos • Example: 24 shops onboard
+          </div>
+        </div>
+
+        <div class="col-12 col-md-5 d-none d-md-block">
+          <!-- decorative card / mini product preview -->
+          <div class="card" style="border-radius:16px; overflow:hidden; box-shadow: 0 18px 60px rgba(2,6,23,0.18);">
+            <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=1024&auto=format&fit=crop" alt="product" style="width:100%; height:280px; object-fit:cover;">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Featured Collection</h5>
+              <p class="mb-2" style="color:var(--muted)">Premium selection — show collections with vibrant imagery and one-click WhatsApp ordering.</p>
+              <div class="d-flex gap-2">
+                <a class="btn btn-outline-dark btn-sm w-100" href="#"><i class="bi bi-chat-dots"></i> Order via WhatsApp</a>
+                <a class="btn btn-gold btn-sm w-50" href="#"><i class="bi bi-bag"></i> Buy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Portrait row: 5 circular tiles that rotate images when in view -->
+  <section class="portrait-row">
+    <div class="container">
+      <h4 class="mb-3 text-center">See your products and people shine</h4>
+      <p class="text-center text-muted mb-4">As visitors scroll, portraits and product shots animate and cycle — keeping the page lively and attention-grabbing.</p>
+
+      <div class="portraits" id="portraits">
+        <!-- five portrait tiles with data-index to map to image sets in JS -->
+        <div class="portrait" data-index="0" role="img" aria-label="portrait 1" style="background-image:url('https://images.unsplash.com/photo-1531123414780-f53d1b8f04d1?q=80&w=600&auto=format&fit=crop')"></div>
+        <div class="portrait" data-index="1" role="img" aria-label="portrait 2" style="background-image:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop')"></div>
+        <div class="portrait" data-index="2" role="img" aria-label="portrait 3" style="background-image:url('https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=600&auto=format&fit=crop')"></div>
+        <div class="portrait" data-index="3" role="img" aria-label="portrait 4" style="background-image:url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop')"></div>
+        <div class="portrait" data-index="4" role="img" aria-label="portrait 5" style="background-image:url('https://images.unsplash.com/photo-1542060748-8b6c5e4741ae?q=80&w=600&auto=format&fit=crop')"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products / Services -->
+  <section class="products">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>What we can showcase</h3>
+        <div class="text-muted d-none d-md-block">Make it easy to buy, book, or contact in 1 tap.</div>
+      </div>
+
+      <div class="row gy-3">
+        <div class="col-6 col-md-3">
+          <div class="product-card p-3">
+            <img src="https://images.unsplash.com/photo-1520975916412-9a7f6f0e5b18?q=80&w=800&auto=format&fit=crop" alt="product" style="width:100%; height:120px; object-fit:cover; border-radius:10px;">
+            <h6 class="mt-2 mb-1">Kids Fashion</h6>
+            <p class="small text-muted mb-2">Vibrant outfits, one-click order via WhatsApp.</p>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-gold w-100" href="#"><i class="bi bi-whatsapp"></i> Order</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="product-card p-3">
+            <img src="https://images.unsplash.com/photo-1541542684-7b3c7fefb338?q=80&w=800&auto=format&fit=crop" alt="service" style="width:100%; height:120px; object-fit:cover; border-radius:10px;">
+            <h6 class="mt-2 mb-1">Restaurant Menu</h6>
+            <p class="small text-muted mb-2">Showcase menu, reserve tables, accept orders.</p>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-outline-dark w-100" href="#contact"><i class="bi bi-calendar-event"></i> Book</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="product-card p-3">
+            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop" alt="service" style="width:100%; height:120px; object-fit:cover; border-radius:10px;">
+            <h6 class="mt-2 mb-1">Real Estate</h6>
+            <p class="small text-muted mb-2">Property highlights with call-to-view buttons.</p>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-gold w-100" href="#"><i class="bi bi-telephone"></i> Call</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="product-card p-3">
+            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop" alt="service" style="width:100%; height:120px; object-fit:cover; border-radius:10px;">
+            <h6 class="mt-2 mb-1">POS & Services</h6>
+            <p class="small text-muted mb-2">Show balance, open hours, and payment options.</p>
+            <div class="d-flex gap-2">
+              <a class="btn btn-sm btn-outline-dark w-100" href="#"><i class="bi bi-info-circle"></i> Learn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-4">
+    <div class="container">
+      <h3 class="mb-3">What local owners say</h3>
+      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="testimonial p-3">
+              <div class="d-flex align-items-center gap-3 mb-2">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="owner" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+                <div>
+                  <strong>Mary — Boutique Owner</strong><br>
+                  <small class="text-muted">Ikoyi, Lagos</small>
+                </div>
+              </div>
+              <p class="mb-0">"We saw foot traffic grow after the site launched. Customers now message us directly to order — easy!"</p>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="testimonial p-3">
+              <div class="d-flex align-items-center gap-3 mb-2">
+                <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop" alt="owner2" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+                <div>
+                  <strong>Pastor John — Local Church</strong><br>
+                  <small class="text-muted">Surulere, Lagos</small>
+                </div>
+              </div>
+              <p class="mb-0">"Bookings for events are simpler now. Members can register online and we get better turnout."</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Map -->
+  <section id="contact" class="py-4">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <h4>Contact & Booking</h4>
+          <p class="text-muted">Book a demo or request a custom site for your business. We’ll show live examples tailored to your category.</p>
+
+          <form id="contactForm" class="needs-validation" novalidate>
+            <div class="mb-2">
+              <label class="form-label">Name</label>
+              <input class="form-control" required>
+              <div class="invalid-feedback">Please enter your name.</div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Phone or WhatsApp</label>
+              <input class="form-control" required>
+              <div class="invalid-feedback">We need your contact to reach you.</div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" rows="4" required></textarea>
+              <div class="invalid-feedback">Tell us what you need.</div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-gold" type="submit"><i class="bi bi-send"></i> Send Message</button>
+              <a class="btn btn-outline-dark" href="https://wa.me/234000000000" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <h6 class="mb-2">Visit us</h6>
+          <iframe class="map-embed" loading="lazy"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.XXXXXXX!2d3.3792!3d6.5244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8...!2sLagos!5e0!3m2!1sen!2sng!4v0000000000000"
+            referrerpolicy="no-referrer-when-downgrade" aria-hidden="false" tabindex="0"></iframe>
+
+          <div class="mt-3 text-muted small">
+            <div><strong>Phone:</strong> +234 000 000 0000</div>
+            <div><strong>Email:</strong> hello@kickdemo.ng</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-top mt-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <div>
+        <strong>Kick Platform — Demo</strong><br>
+        <small class="text-muted">A demo site to showcase premium web presence for local businesses in Lagos.</small>
+      </div>
+      <div class="mt-3 mt-md-0 text-muted small">© <span id="year"></span> Kick Demo • Built with Bootstrap</div>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta">
+    <a class="btn btn-gold w-50" href="https://wa.me/234000000000" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
+    <a class="btn btn-dark w-50" href="tel:+234000000000"><i class="bi bi-telephone"></i> Call</a>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // HERO background rotation
+    (function(){
+      const bgEls = [
+        document.getElementById('heroBg0'),
+        document.getElementById('heroBg1'),
+        document.getElementById('heroBg2')
+      ];
+      let idx = 0;
+      function show(i){
+        bgEls.forEach((el, n) => {
+          el.classList.toggle('bg-visible', n===i);
+          el.classList.toggle('bg-fade', n!==i);
+        });
+      }
+      // Preload images (optional)
+      bgEls.forEach(e => { const img = new Image(); img.src = e.style.backgroundImage.slice(5,-2); });
+
+      // rotate every 5 seconds
+      setInterval(() => {
+        idx = (idx + 1) % bgEls.length;
+        show(idx);
+      }, 5000);
+    })();
+
+    // Portrait tiles: each tile cycles through a small set of images
+    (function(){
+      const portraitSets = [
+        [ 'https://images.unsplash.com/photo-1531123414780-f53d1b8f04d1?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1542060748-8b6c5e4741ae?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop' ],
+        [ 'https://images.unsplash.com/photo-1526045612212-70caf35c14df?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=600&auto=format&fit=crop' ],
+        [ 'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1520975916412-9a7f6f0e5b18?q=80&w=600&auto=format&fit=crop' ],
+        [ 'https://images.unsplash.com/photo-1542060748-8b6c5e4741ae?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop' ],
+        [ 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1520975916412-9a7f6f0e5b18?q=80&w=600&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1531123414780-f53d1b8f04d1?q=80&w=600&auto=format&fit=crop' ]
+      ];
+
+      const tiles = Array.from(document.querySelectorAll('.portrait'));
+      const intervals = [];
+
+      // function to start cycling images for a tile index
+      function startTile(i){
+        const tile = tiles[i];
+        const imgs = portraitSets[i] || portraitSets[0];
+        let p = 0;
+        // preload
+        imgs.forEach(u => { const img = new Image(); img.src = u; });
+
+        // set initial
+        tile.style.backgroundImage = `url('${imgs[0]}')`;
+
+        // rotate every 2.2s (staggered)
+        intervals[i] = setInterval(() => {
+          p = (p + 1) % imgs.length;
+          tile.style.transition = 'background-image .6s ease-in-out, transform .4s ease';
+          tile.style.backgroundImage = `url('${imgs[p]}')`;
+        }, 2200 + (i*200));
+      }
+
+      // IntersectionObserver: start cycling only when row visible
+      const row = document.getElementById('portraits');
+      let started = false;
+      if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !started) {
+              started = true;
+              tiles.forEach((t, i) => startTile(i));
+            }
+          });
+        }, { threshold: 0.4 });
+        obs.observe(row);
+      } else {
+        // fallback: start immediately
+        tiles.forEach((t, i) => startTile(i));
+      }
+
+    })();
+
+    // contact form bootstrap validation
+    (function(){
+      const form = document.getElementById('contactForm');
+      if (form){
+        form.addEventListener('submit', function(event){
+          if (!form.checkValidity()){
+            event.preventDefault();
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+          }
+          event.preventDefault();
+          // here you would send AJAX; we'll just show a success toast
+          alert('Thanks — your request has been received. We will contact you shortly.');
+          form.reset();
+          form.classList.remove('was-validated');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
